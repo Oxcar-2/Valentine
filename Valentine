@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine's Day</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: pink;
+      margin-top: 100px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: red;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #yes {
+      background-color: lightgreen;
+    }
+    #no {
+      background-color: lightcoral;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+      <button id="yes" onclick="sayYes()">Yes</button>
+      <button id="no" onclick="makeNoBigger()">No</button>
+    </div>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    let noSize = 16;  // Original size of the "No" button
+    let yesSize = 16;  // Original size of the "Yes" button
+    let noClickCount = 0;  // Track number of "No" button clicks
+    let reassuranceMessages = [
+      "Are you sure? 😢", 
+      "Think about it again... 🥺", 
+      "But I’ll be really sad... 💔", 
+      "I promise I’ll be the best Valentine! 💖", 
+      "You can’t say no forever! 😘",
+      "I’ll bring you chocolate! 🍫", 
+      "What about flowers? 🌸", 
+      "I can make you laugh! 😂", 
+      "I’ll give you the best hugs! 🤗", 
+      "Pleaseee 😭🙏"
+    ];
+    let reassuranceIndex = 0;
+    let userChoice = "";  // To track if user picked "Yes" or "No"
+
+    // Action when the user clicks "Yes"
+    function sayYes() {
+      console.log("Yes button was clicked");
+      userChoice = "Yes";  // Set the user choice to "Yes"
+      
+      let yesButton = document.getElementById("yes");
+      let noButton = document.getElementById("no");
+      yesButton.style.fontSize = "40px"; // Grow "Yes" button
+      noButton.style.fontSize = "16px"; // Keep "No" button at its original size
+
+      // Change the text on the "Yes" button to "YAYY, I LOVE YOU<33"
+      yesButton.innerText = "YAYY, I LOVE YOU<33";
+
+      // Disable the buttons to make the page non-interactive
+      yesButton.disabled = true;
+      noButton.disabled = true;
+
+      // Show the "I love you" message
+      document.getElementById("message").innerText = "YAYY, I love you! ❤️";
+    }
+
+    // Action when the user clicks "No"
+    function makeNoBigger() {
+      console.log("No button was clicked");
+      if (userChoice === "") { // If "Yes" has not been clicked yet
+        let noButton = document.getElementById("no");
+        let yesButton = document.getElementById("yes");
+        let message = document.getElementById("message");
+
+        // Increase the size of the "Yes" button with each click of "No"
+        yesSize += 5;  // Increase the "Yes" button size
+        yesButton.style.fontSize = yesSize + "px";
+
+        // Move the "No" button randomly around the screen
+        let randomX = Math.floor(Math.random() * (window.innerWidth - noButton.offsetWidth));
+        let randomY = Math.floor(Math.random() * (window.innerHeight - noButton.offsetHeight));
+        noButton.style.left = randomX + "px";
+        noButton.style.top = randomY + "px";
+
+        // Increment the "No" click counter
+        noClickCount++;
+
+        // After 17 clicks, make "Yes" button very big and hide "No"
+        if (noClickCount >= 17) {
+          yesButton.style.fontSize = "80px";  // Make the "Yes" button very big
+          noButton.style.display = "none";  // Hide the "No" button
+          message.innerText = "";  // Remove any message after the last "No" click
+        } else {
+          // Show reassurance messages one at a time
+          if (reassuranceIndex < reassuranceMessages.length) {
+            message.innerText = reassuranceMessages[reassuranceIndex];
+            reassuranceIndex++;
+          } else {
+            // If all messages are shown, stop the reassurance cycle
+            message.innerText = "Okay... but I still think you're amazing! 💕";
+          }
+        }
+      } else {
+        document.getElementById("message").innerText = "You already made your choice: " + userChoice;
+      }
+    }
+  </script>
+</body>
+</html>
